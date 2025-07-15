@@ -1,0 +1,14 @@
+[project]
+name = "fastapi-inertia-svelte"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.116.1",
+    "sqlalchemy[asyncio]>=2.0.41",
+    "alembic>=1.16.2",
+    "dotenv>=0.9.9",
+    "uvicorn>=0.35.0",
+    "asyncpg>=0.30.0",
+]
