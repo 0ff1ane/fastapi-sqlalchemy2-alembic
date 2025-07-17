@@ -16,6 +16,8 @@ class CreateTodoResponse(BaseModel):
 class RetrieveTodoResponse(BaseModel):
     id: int
     content: str
+    is_completed: bool
+    is_deleted: bool
     created_at: datetime
     updated_at: datetime
 
@@ -23,6 +25,8 @@ class RetrieveTodoResponse(BaseModel):
 class ListTodosResponseItem(BaseModel):
     id: int
     content: str
+    is_completed: bool
+    is_deleted: bool
     created_at: datetime
     updated_at: datetime
 
@@ -33,11 +37,14 @@ class ListTodosResponse(BaseModel):
 
 
 class UpdateTodoRequest(BaseModel):
-    content: str
+    is_completed: bool
+    is_deleted: bool
 
 
 class UpdateTodoResponse(BaseModel):
     id: int
     content: str
+    is_completed: bool
+    is_deleted: bool
     created_at: datetime
     updated_at: datetime

@@ -10,9 +10,8 @@ from core.db import get_async_db_session
 from apps.todos import models
 from apps.todos import schemas
 
-# /api/v1/todo
+# /api/todo
 router = APIRouter()
-
 
 @router.post("", summary="Create a new todo")
 async def create_todo(
@@ -39,11 +38,13 @@ async def retrieve_todo(
     stmt = select(
         models.Todo.id,
         models.Todo.content,
+        models.Todo.is_completed,
+        models.Todo.is_deleted,
         models.Todo.created_at,
         models.Todo.updated_at,
     ).where(
         models.Todo.id == todo_id,
-        models.Todo.deleted_at.is_(None),
+        models.Todo.is_deleted == False
     )
     result_row = (await db.execute(stmt)).first()
 
@@ -54,6 +55,8 @@ async def retrieve_todo(
     return schemas.RetrieveTodoResponse(
         id=mapped_row[models.Todo.id],
         content=mapped_row[models.Todo.content],
+        is_completed=mapped_row[models.Todo.is_completed],
+        is_deleted=mapped_row[models.Todo.is_deleted],
         created_at=mapped_row[models.Todo.created_at],
         updated_at=mapped_row[models.Todo.updated_at],
     )
@@ -64,7 +67,7 @@ async def list_todos(
     db: Annotated[AsyncSession, Depends(get_async_db_session)],
 ) -> schemas.ListTodosResponse:
     count_stmt = select(func.count(models.Todo.id)).where(
-        models.Todo.deleted_at.is_(None),
+        models.Todo.is_deleted == False
     )
     count_result = (await db.execute(count_stmt)).scalar() or 0
 
@@ -72,11 +75,13 @@ async def list_todos(
         select(
             models.Todo.id,
             models.Todo.content,
+            models.Todo.is_completed,
+            models.Todo.is_deleted,
             models.Todo.created_at,
             models.Todo.updated_at,
         )
         .where(
-            models.Todo.deleted_at.is_(None),
+            models.Todo.is_deleted == False
         )
         .order_by(models.Todo.created_at.desc())
     )
@@ -88,6 +93,8 @@ async def list_todos(
             schemas.ListTodosResponseItem(
                 id=row.id,
                 content=row.content,
+                is_completed=row.is_completed,
+                is_deleted=row.is_deleted,
                 created_at=row.created_at,
                 updated_at=row.updated_at,
             )
@@ -104,18 +111,21 @@ async def update_todo(
 ) -> schemas.UpdateTodoResponse:
     stmt = select(models.Todo).where(
         models.Todo.id == todo_id,
-        models.Todo.deleted_at.is_(None),
+        models.Todo.is_deleted == False
     )
     todo = (await db.execute(stmt)).scalar()
     if todo is None:
         raise HTTPException(status_code=404, detail="Todo not found")
 
-    todo.content = request_data.content
+    todo.is_completed = request_data.is_completed
+    todo.is_deleted = request_data.is_deleted
     await db.commit()
     await db.refresh(todo)
     return schemas.UpdateTodoResponse(
         id=todo.id,
         content=todo.content,
+        is_completed=todo.is_completed,
+        is_deleted=todo.is_deleted,
         created_at=todo.created_at,
         updated_at=todo.updated_at,
     )
@@ -128,13 +138,13 @@ async def delete_todo(
 ) -> None:
     stmt = select(models.Todo).where(
         models.Todo.id == todo_id,
-        models.Todo.deleted_at.is_(None),
+        models.Todo.is_deleted == False
     )
     todo = (await db.execute(stmt)).scalar()
     if todo is None:
         raise HTTPException(status_code=404, detail="Todo not found")
 
-    todo.deleted_at = func.now()
+    todo.is_deleted = True
     await db.commit()
     await db.refresh(todo)
     return None

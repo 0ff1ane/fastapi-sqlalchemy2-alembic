@@ -11,6 +11,8 @@ class Todo(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     content: Mapped[str]
+    is_completed: Mapped[bool] = mapped_column(default=False, server_default="f")
+    is_deleted: Mapped[bool] = mapped_column(default=False, server_default="f")
 
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(
