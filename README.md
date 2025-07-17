@@ -2,7 +2,12 @@
   Simple Todo App backend
 
 
-# For a setup with InertiaJS serving Svelte file. Check this [branch](https://github.com/0ff1ane/fastapi-sqlalchemy2-alembic/tree/inertia-svelte)
+## Reasons
+Most of the FastAPI tutorials out there use SqlAlchemy 1.
+Setting it up with SqlAlchemy 2 and Alembic was a bit of a chore. Hope this helps someone out there.
+
+
+# For a setup with InertiaJS serving Svelte files. Check this [branch](https://github.com/0ff1ane/fastapi-sqlalchemy2-alembic/tree/inertia-svelte)
 
 
 ## Setup
@@ -17,7 +22,7 @@
 ## References
   * FastAPI: [https://fastapi.tiangolo.com/](https://fastapi.tiangolo.com/)
   * SqlAlchemy 2: [https://docs.sqlalchemy.org/en/20/](https://docs.sqlalchemy.org/en/20/)
-
+  * Pydantic: [https://docs.pydantic.dev/](https://docs.pydantic.dev/)
 
 ## TODO
   * Add backend tests
