@@ -2,6 +2,12 @@
   Simple Todo App
 
 
+## Reasons
+Most of the FastAPI tutorials out there use SqlAlchemy 1.
+Setting it up with SqlAlchemy 2 was a bit of a chore. Hope this helps someone out there.
+A self-contained backend+frontend monorepo helps with e2e testing, typegen and deployment.
+
+
 ## Setup
   * Clone this repo
   * Backend setup
@@ -28,5 +34,6 @@
 ## TODO
   * Add backend tests
   * Add frontend tests
+  * Add typegen from PyDantic to use in Typescript
   * Add SSR for backend
   * Add DockerFile
