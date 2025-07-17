@@ -1,6 +1,7 @@
 ## FastAPI with SQLAlchemy2, Alemic, Pydantic, asyncpg. Frontend by Svelte 5 with InertiaJS
   Simple Todo App
 
+
 ## Setup
   * Clone this repo
   * Backend setup
@@ -15,10 +16,14 @@
     * Run `npm run dev`
   * Visit http://localhost:8000 to see a simple Todo app tied to the backend and DB
 
+
 ## References
   * FastAPI: [https://fastapi.tiangolo.com/](https://fastapi.tiangolo.com/)
+  * SqlAlchemy 2: [https://docs.sqlalchemy.org/en/20/](https://docs.sqlalchemy.org/en/20/)
+  * Pydantic: [https://docs.pydantic.dev/](https://docs.pydantic.dev/)
   * FastAPI-Inertia: [https://github.com/hxjo/fastapi-inertia/](https://github.com/hxjo/fastapi-inertia/)
   * InertiaJS: [inertiajs.com](inertiajs.com)
+
 
 ## TODO
   * Add backend tests
